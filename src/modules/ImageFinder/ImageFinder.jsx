@@ -71,7 +71,6 @@ export default class ImageFinder extends Component {
   render() {
     const { items, loading, showModal, pictureDetails, error, totalItems } =
       this.state;
-    // console.log(totalItems);
     return (
       <div className={css.ImageFinder}>
         <Searchbar onSubmit={this.onSearchSubmit} />
@@ -90,5 +89,3 @@ export default class ImageFinder extends Component {
     );
   }
 }
-
-//
