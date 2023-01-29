@@ -12,6 +12,7 @@ export default class ImageFinder extends Component {
     search: '',
     page: 1,
     items: [],
+    totalItems: 0,
     error: null,
     showModal: false,
     pictureDetails: null,
@@ -30,8 +31,10 @@ export default class ImageFinder extends Component {
     try {
       this.setState({ loading: true });
       const data = await fetchImage(search, page);
+
       this.setState(({ items }) => ({
         items: [...items, ...data.hits],
+        totalItems: data.totalHits,
       }));
     } catch (error) {
       this.setState({ error: error.message });
@@ -66,8 +69,9 @@ export default class ImageFinder extends Component {
   };
 
   render() {
-    const { items, loading, showModal, pictureDetails, error } = this.state;
-
+    const { items, loading, showModal, pictureDetails, error, totalItems } =
+      this.state;
+    // console.log(totalItems);
     return (
       <div className={css.ImageFinder}>
         <Searchbar onSubmit={this.onSearchSubmit} />
@@ -79,7 +83,9 @@ export default class ImageFinder extends Component {
         {showModal && (
           <Modal onClose={this.closeModal} picture={pictureDetails} />
         )}
-        {Boolean(items.length) && <Button loadMore={this.loadMore} />}
+        {Boolean(items.length) && items.length !== totalItems && (
+          <Button loadMore={this.loadMore} />
+        )}
       </div>
     );
   }
